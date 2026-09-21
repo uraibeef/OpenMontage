@@ -10,6 +10,7 @@
 | Tool | Provider | Cost | Speed | Best For |
 |------|----------|------|-------|----------|
 | `flux_image` | FLUX 2 Pro via fal.ai | ~$0.03-0.05 | ~5-10s | Photorealism, general purpose, workhorse |
+| `magnific_mystic` | Mystic via Magnific/Freepik | ~$0.04-0.10 | 10-90s (by resolution) | Material texture (skin, fabric, food, metal), editorial portraits, product hero shots, native 4K |
 | `grok_image` | Grok Imagine Image (xAI) | $0.02/output + $0.002/input edit image | ~5-15s | Image edits, style transfer, multi-image compositing |
 | `openai_image` | GPT Image 2 (OpenAI) | ~$0.01-0.21 | ~5-15s | Complex instructions, text in images, multi-element |
 | `recraft_image` | Recraft V4 via fal.ai | ~$0.04-0.25 | ~5-10s | Logos, SVG vectors, brand assets, text rendering (see caveat below) |
@@ -42,11 +43,22 @@
 | **Image with text/labels** | `openai_image` | Best text rendering (GPT Image 2) | `recraft_image` |
 | **Complex multi-element composition** | `openai_image` | Best instruction following | `flux_image` |
 | **Hero image (key visual)** | `flux_image` | Highest visual quality | `openai_image` |
+| **Texture-critical subject** (skin, fabric, food, metal, weathered surfaces) | `magnific_mystic` | Detail engine beats prompt-following models on material realism | `flux_image` |
+| **Editorial portrait / beauty** | `magnific_mystic` (`model: editorial_portraits`) | Purpose-built model | `flux_image` |
+| **Product hero needing print-size output** | `magnific_mystic` (`resolution: 4k`) | Native 4K skips a separate upscale pass | `flux_image` → `magnific_upscale` |
+| **Match an existing reference look** | `magnific_mystic` (`style_reference_path`) | Copies aesthetic without prompt reverse-engineering | `grok_image` |
 | **Thumbnail** | `flux_image` or `recraft_image` | Needs to be eye-catching | — |
 | **Budget/free project** | `pexels_image` or `pixabay_image` | Free, immediate | `local_diffusion` |
 | **Offline/air-gapped** | `local_diffusion` | No network needed | — |
 
 ## Provider-Specific Caveats
+
+### Mystic via Magnific/Freepik
+- **No `negative_prompt` and no numeric seed.** To reproduce a look, set `fixed_generation: true` and keep every other parameter identical.
+- **No exact pixel dimensions.** Mystic takes a named ratio (`widescreen_16_9`, `social_story_9_16`, …) plus a resolution tier (`1k`/`2k`/`4k`). Generic forms like `"16:9"` are translated automatically. When a precise canvas matters, use `flux_image`.
+- **Weak at text inside the image.** Route text scenes to `openai_image` or Remotion `text_card`.
+- **`creative_detailing` above ~50 hallucinates skin artifacts on faces.** Keep it low for people, raise it for inanimate texture.
+- Read `.agents/skills/magnific-best-practices/SKILL.md` before writing Mystic prompts.
 
 ### Recraft V4 via fal.ai
 - **`style` parameter causes 422 errors** (as of 2026-04). The `style` enum values (`digital_illustration`, `realistic_image`, etc.) are rejected by fal.ai's Recraft V4 endpoint. **Workaround:** encode style direction in the prompt text instead (e.g. "digital illustration of a tooth cross-section" rather than `style="digital_illustration"`). The `image_size` and `colors` parameters work fine.

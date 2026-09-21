@@ -3,6 +3,22 @@
 > Sources: Real-ESRGAN documentation, GFPGAN face enhancement docs, Real-ESRGAN paper
 > (Wang et al., 2021), practical upscaling benchmarks
 
+## Two Upscalers — Pick First, Then Read On
+
+| Tool | Engine | Cost | What it does |
+|------|--------|------|--------------|
+| `upscale` | Real-ESRGAN (local) | Free | **Reconstructs** — sharpens what is already in the pixels. Handles video. |
+| `magnific_upscale` | Magnific (Freepik API) | ~$0.08-0.60/image | **Invents** — hallucinates plausible new detail, prompt-guided, up to 16x. Stills only. |
+
+Decision rule:
+
+- **Video, or anything that must not change** → `upscale`. Every frame stays faithful, and it is free.
+- **A single still headed for print or a large-format hero frame** → `magnific_upscale`. It adds detail Real-ESRGAN cannot invent.
+- **Faces, text, logos, or a client deliverable** → `upscale`, or `magnific_upscale` with `creativity: -2` and `resemblance: 4`, then inspect at 100%. Creative mode rewrites faces and text.
+- **Never run `magnific_upscale` per video frame.** A 5-second clip costs more than the rest of the production.
+
+For Magnific parameters (`optimized_for`, `creativity`, `hdr`, `resemblance`, `fractality`), read `.agents/skills/magnific-best-practices/SKILL.md`. The rest of this document covers the local Real-ESRGAN tool.
+
 ## Quick Reference Card
 
 ```
