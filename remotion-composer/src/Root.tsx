@@ -23,6 +23,23 @@ import {
   TOTAL_FRAMES as BEGGAR_TOTAL_FRAMES,
   WIDTH as BEGGAR_WIDTH,
 } from "./beggar/config";
+import { MissedCallReel } from "./missedcall/MissedCallReel";
+import {
+  FPS as MISSED_CALL_FPS,
+  HEIGHT as MISSED_CALL_HEIGHT,
+  TOTAL_FRAMES as MISSED_CALL_TOTAL_FRAMES,
+  WIDTH as MISSED_CALL_WIDTH,
+} from "./missedcall/config";
+import { Episode as RoachWarEpisode } from "./roachwar/Episode";
+import {
+  FPS as ROACH_WAR_FPS,
+  HEIGHT as ROACH_WAR_HEIGHT,
+  WIDTH as ROACH_WAR_WIDTH,
+  totalFrames as roachWarTotalFrames,
+} from "./roachwar/constants";
+import { EP1 } from "./roachwar/ep1";
+import { EP2 } from "./roachwar/ep2";
+import { EP3 } from "./roachwar/ep3";
 
 // ---------------------------------------------------------------------------
 // Theme System — prevents every video from looking like dark fintech
@@ -345,6 +362,45 @@ export const Root: React.FC = () => {
         fps={BEGGAR_FPS}
         width={BEGGAR_WIDTH}
         height={BEGGAR_HEIGHT}
+      />
+
+      <Composition
+        id="MissedCallReel"
+        component={MissedCallReel}
+        durationInFrames={MISSED_CALL_TOTAL_FRAMES}
+        fps={MISSED_CALL_FPS}
+        width={MISSED_CALL_WIDTH}
+        height={MISSED_CALL_HEIGHT}
+      />
+
+      <Composition
+        id="RoachWarEp1"
+        component={RoachWarEpisode}
+        durationInFrames={roachWarTotalFrames(EP1.shots)}
+        fps={ROACH_WAR_FPS}
+        width={ROACH_WAR_WIDTH}
+        height={ROACH_WAR_HEIGHT}
+        defaultProps={{ episode: EP1 }}
+      />
+
+      <Composition
+        id="RoachWarEp2"
+        component={RoachWarEpisode}
+        durationInFrames={roachWarTotalFrames(EP2.shots)}
+        fps={ROACH_WAR_FPS}
+        width={ROACH_WAR_WIDTH}
+        height={ROACH_WAR_HEIGHT}
+        defaultProps={{ episode: EP2 }}
+      />
+
+      <Composition
+        id="RoachWarEp3"
+        component={RoachWarEpisode}
+        durationInFrames={roachWarTotalFrames(EP3.shots)}
+        fps={ROACH_WAR_FPS}
+        width={ROACH_WAR_WIDTH}
+        height={ROACH_WAR_HEIGHT}
+        defaultProps={{ episode: EP3 }}
       />
     </>
   );
