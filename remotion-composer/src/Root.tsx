@@ -16,6 +16,13 @@ import { ProductReveal, ProductRevealProps } from "./components/ProductReveal";
 import { CaptionOverlay, WordCaption } from "./components/CaptionOverlay";
 import { CollageBurst, CollageBurstProps } from "./CollageBurst";
 import { LyricOverlay, LyricOverlayProps } from "./LyricOverlay";
+import { BeggarReel } from "./beggar/BeggarReel";
+import {
+  FPS as BEGGAR_FPS,
+  HEIGHT as BEGGAR_HEIGHT,
+  TOTAL_FRAMES as BEGGAR_TOTAL_FRAMES,
+  WIDTH as BEGGAR_WIDTH,
+} from "./beggar/config";
 
 // ---------------------------------------------------------------------------
 // Theme System — prevents every video from looking like dark fintech
@@ -329,6 +336,15 @@ export const Root: React.FC = () => {
           fadeOutSeconds: 1.5,
           overlay: true,
         } as EndTagProps}
+      />
+
+      <Composition
+        id="BeggarReel"
+        component={BeggarReel}
+        durationInFrames={BEGGAR_TOTAL_FRAMES}
+        fps={BEGGAR_FPS}
+        width={BEGGAR_WIDTH}
+        height={BEGGAR_HEIGHT}
       />
     </>
   );
