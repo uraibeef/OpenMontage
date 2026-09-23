@@ -48,6 +48,33 @@ export interface Shot {
    * that keeps moving.
    */
   stamp?: string;
+  /**
+   * Render a phone chat over this shot instead of showing the plate. The
+   * plate stays behind it, blurred, as the room the phone is in.
+   */
+  chat?: ChatSpec;
+}
+
+export interface ChatMessage {
+  side: "in" | "out";
+  text: string;
+  /** Seconds into the shot when the message appears. */
+  at: number;
+  /** Deleted by the owner and dug back up by the recovery tool. */
+  recovered?: boolean;
+  /** Typed but never sent; types itself out over `typeSeconds`. */
+  draft?: boolean;
+  typeSeconds?: number;
+}
+
+export interface ChatSpec {
+  name: string;
+  /** Letter in the avatar circle; defaults to the first letter of `name`. */
+  avatar?: string;
+  /** Contact detail that replaces the header status line — the reveal. */
+  detail?: string;
+  revealDetailAt?: number;
+  messages: ChatMessage[];
 }
 
 export type StampTone = "green" | "red";

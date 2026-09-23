@@ -9,6 +9,7 @@ import { EmphasisMark } from "../beggar/EmphasisMark";
 import { FilmLook, gateWeave } from "../beggar/FilmLook";
 import { KitchenLight } from "./KitchenLight";
 import { Timestamp } from "./Timestamp";
+import { ChatScreen } from "./ChatScreen";
 import type { Shot as ShotConfig, StampTone } from "./constants";
 import { HEIGHT, WIDTH } from "./constants";
 
@@ -68,6 +69,8 @@ export const Shot: React.FC<{
           style={{ width: WIDTH, height: HEIGHT, objectFit: "cover" }}
         />
       </AbsoluteFill>
+
+      {shot.chat ? <ChatScreen chat={shot.chat} backdrop={shot.src} /> : null}
 
       {shot.glow ? (
         <KitchenLight kind={shot.glow} durationInFrames={durationInFrames} />
