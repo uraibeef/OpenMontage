@@ -40,6 +40,16 @@ import {
 import { EP1 } from "./roachwar/ep1";
 import { EP2 } from "./roachwar/ep2";
 import { EP3 } from "./roachwar/ep3";
+import { Episode as VillageLineEpisode } from "./villageline/Episode";
+import {
+  FPS as VILLAGE_LINE_FPS,
+  HEIGHT as VILLAGE_LINE_HEIGHT,
+  WIDTH as VILLAGE_LINE_WIDTH,
+  totalFrames as villageLineTotalFrames,
+} from "./villageline/constants";
+import { EP1 as VL_EP1 } from "./villageline/ep1";
+import { EP2 as VL_EP2 } from "./villageline/ep2";
+import { EP3 as VL_EP3 } from "./villageline/ep3";
 
 // ---------------------------------------------------------------------------
 // Theme System — prevents every video from looking like dark fintech
@@ -401,6 +411,36 @@ export const Root: React.FC = () => {
         width={ROACH_WAR_WIDTH}
         height={ROACH_WAR_HEIGHT}
         defaultProps={{ episode: EP3 }}
+      />
+
+      <Composition
+        id="VillageLineEp1"
+        component={VillageLineEpisode}
+        durationInFrames={villageLineTotalFrames(VL_EP1.scenes)}
+        fps={VILLAGE_LINE_FPS}
+        width={VILLAGE_LINE_WIDTH}
+        height={VILLAGE_LINE_HEIGHT}
+        defaultProps={{ episode: VL_EP1 }}
+      />
+
+      <Composition
+        id="VillageLineEp2"
+        component={VillageLineEpisode}
+        durationInFrames={villageLineTotalFrames(VL_EP2.scenes)}
+        fps={VILLAGE_LINE_FPS}
+        width={VILLAGE_LINE_WIDTH}
+        height={VILLAGE_LINE_HEIGHT}
+        defaultProps={{ episode: VL_EP2 }}
+      />
+
+      <Composition
+        id="VillageLineEp3"
+        component={VillageLineEpisode}
+        durationInFrames={villageLineTotalFrames(VL_EP3.scenes)}
+        fps={VILLAGE_LINE_FPS}
+        width={VILLAGE_LINE_WIDTH}
+        height={VILLAGE_LINE_HEIGHT}
+        defaultProps={{ episode: VL_EP3 }}
       />
     </>
   );
