@@ -3,6 +3,7 @@ import { Scene } from "./Scene";
 import type { Caption, Episode as EpisodeConfig } from "./constants";
 import { FPS, HEIGHT, PALETTE, sceneFrames, sceneStarts, WIDTH } from "./constants";
 import { CAPTION_FONT } from "./fonts";
+import { PhraseWrapped } from "../roachwar/Captions";
 
 /**
  * One episode of "กลุ่มไลน์หมู่บ้าน".
@@ -105,7 +106,7 @@ const Captions: React.FC<{ captions: Caption[] }> = ({ captions }) => {
           ...({ textWrap: "balance" } as React.CSSProperties),
         }}
       >
-        {active.text}
+        <PhraseWrapped text={active.text} />
       </span>
     </div>
   );

@@ -33,10 +33,12 @@ export const Episode: React.FC<{ episode: EpisodeConfig }> = ({ episode }) => {
               shot={shot}
               durationInFrames={durationInFrames}
               stamp={
-                episode.timestampShots.includes(shot.id)
+                shot.stamp ??
+                (episode.timestampShots.includes(shot.id)
                   ? episode.timestampLabel
-                  : undefined
+                  : undefined)
               }
+              stampTone={episode.stampTone}
             />
           </Sequence>
         );

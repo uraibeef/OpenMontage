@@ -42,7 +42,15 @@ export interface Shot {
    * very visible across a loop cut. Freezing both ends removes the seam.
    */
   steady?: boolean;
+  /**
+   * A stamp for this shot alone, overriding the episode-wide label. Used when
+   * the number on screen changes from shot to shot — a lottery draw, a clock
+   * that keeps moving.
+   */
+  stamp?: string;
 }
+
+export type StampTone = "green" | "red";
 
 export interface Caption {
   text: string;
@@ -63,6 +71,8 @@ export interface Episode {
    */
   timestampShots: string[];
   timestampLabel: string;
+  /** Colour of the stamp. Green reads as a machine; red reads as a price. */
+  stampTone?: StampTone;
 }
 
 /**

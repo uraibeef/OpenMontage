@@ -1,6 +1,7 @@
 import { interpolate, useCurrentFrame, useVideoConfig } from "remotion";
 import { loadFont } from "@remotion/google-fonts/Kanit";
 import { HEIGHT, WIDTH } from "./constants";
+import type { StampTone } from "./constants";
 
 const { fontFamily } = loadFont("normal", {
   weights: ["600"],
@@ -16,12 +17,29 @@ const { fontFamily } = loadFont("normal", {
  */
 
 const FONT_SIZE = 40;
+
+const TONES: Record<StampTone, { text: string; border: string; plate: string; glow: string }> = {
+  green: {
+    text: "#d9ffe4",
+    border: "rgba(180, 255, 205, 0.26)",
+    plate: "rgba(6, 14, 9, 0.45)",
+    glow: "rgba(120, 255, 170, 0.45)",
+  },
+  red: {
+    text: "#ffd9d4",
+    border: "rgba(255, 120, 105, 0.34)",
+    plate: "rgba(20, 5, 4, 0.5)",
+    glow: "rgba(255, 60, 40, 0.55)",
+  },
+};
 const HOLD_IN_FRAMES = 8;
 
 export const Timestamp: React.FC<{
   label: string;
+  tone?: StampTone;
   durationInFrames: number;
-}> = ({ label, durationInFrames }) => {
+}> = ({ label, tone = "green", durationInFrames }) => {
+  const palette = TONES[tone];
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
@@ -53,12 +71,12 @@ export const Timestamp: React.FC<{
           fontSize: FONT_SIZE,
           fontWeight: 600,
           letterSpacing: 6,
-          color: "#d9ffe4",
+          color: palette.text,
           padding: "8px 22px",
           borderRadius: 999,
-          border: "1px solid rgba(180, 255, 205, 0.26)",
-          background: "rgba(6, 14, 9, 0.45)",
-          textShadow: "0 0 18px rgba(120, 255, 170, 0.45)",
+          border: `1px solid ${palette.border}`,
+          background: palette.plate,
+          textShadow: `0 0 18px ${palette.glow}`,
         }}
       >
         {label}

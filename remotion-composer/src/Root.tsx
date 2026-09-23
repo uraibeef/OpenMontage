@@ -50,6 +50,7 @@ import {
 import { EP1 as VL_EP1 } from "./villageline/ep1";
 import { EP2 as VL_EP2 } from "./villageline/ep2";
 import { EP3 as VL_EP3 } from "./villageline/ep3";
+import { EP01_SARN_HAI_LEK } from "./unusualtales/ep01-sarn-hai-lek";
 
 // ---------------------------------------------------------------------------
 // Theme System — prevents every video from looking like dark fintech
@@ -441,6 +442,16 @@ export const Root: React.FC = () => {
         width={VILLAGE_LINE_WIDTH}
         height={VILLAGE_LINE_HEIGHT}
         defaultProps={{ episode: VL_EP3 }}
+      />
+
+      <Composition
+        id="UnusualTalesEp01"
+        component={RoachWarEpisode}
+        durationInFrames={roachWarTotalFrames(EP01_SARN_HAI_LEK.shots)}
+        fps={ROACH_WAR_FPS}
+        width={ROACH_WAR_WIDTH}
+        height={ROACH_WAR_HEIGHT}
+        defaultProps={{ episode: EP01_SARN_HAI_LEK }}
       />
     </>
   );

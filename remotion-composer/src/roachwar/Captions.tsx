@@ -73,10 +73,32 @@ export const Captions: React.FC<{ captions: Caption[] }> = ({ captions }) => {
           backdropFilter: "blur(6px)",
           textShadow: "0 2px 10px rgba(0,0,0,0.8)",
           boxDecorationBreak: "clone",
+          // Thai has no spaces, so Chrome breaks lines by dictionary and will
+          // strand a single word on the second line. Balance the two lines.
+          ...({ textWrap: "balance" } as React.CSSProperties),
         }}
       >
-        {active.text}
+        <PhraseWrapped text={active.text} />
       </span>
     </div>
   );
 };
+
+/**
+ * Render a caption so it can only wrap at the spaces the caption author put in.
+ *
+ * Thai is written without spaces between words; the spaces in a Thai caption
+ * mark phrase boundaries. Left to itself Chrome breaks Thai by dictionary and
+ * will split mid-phrase ("ศาลไม่ / เคยเอา"). Wrapping each phrase in a no-wrap
+ * span makes the phrase boundaries the only legal break points.
+ */
+export const PhraseWrapped: React.FC<{ text: string }> = ({ text }) => (
+  <>
+    {text.split(" ").map((phrase, index) => (
+      <span key={index}>
+        {index > 0 ? " " : null}
+        <span style={{ whiteSpace: "nowrap" }}>{phrase}</span>
+      </span>
+    ))}
+  </>
+);

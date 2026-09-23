@@ -9,7 +9,7 @@ import { EmphasisMark } from "../beggar/EmphasisMark";
 import { FilmLook, gateWeave } from "../beggar/FilmLook";
 import { KitchenLight } from "./KitchenLight";
 import { Timestamp } from "./Timestamp";
-import type { Shot as ShotConfig } from "./constants";
+import type { Shot as ShotConfig, StampTone } from "./constants";
 import { HEIGHT, WIDTH } from "./constants";
 
 /**
@@ -30,7 +30,8 @@ export const Shot: React.FC<{
   durationInFrames: number;
   /** The on-screen clock label, when this shot is one that carries it. */
   stamp?: string;
-}> = ({ shot, durationInFrames, stamp }) => {
+  stampTone?: StampTone;
+}> = ({ shot, durationInFrames, stamp, stampTone }) => {
   const frame = useCurrentFrame();
   const progress = durationInFrames <= 1 ? 0 : frame / (durationInFrames - 1);
 
@@ -79,7 +80,7 @@ export const Shot: React.FC<{
       <FilmLook />
 
       {stamp ? (
-        <Timestamp label={stamp} durationInFrames={durationInFrames} />
+        <Timestamp label={stamp} tone={stampTone} durationInFrames={durationInFrames} />
       ) : null}
     </AbsoluteFill>
   );
