@@ -71,6 +71,8 @@ export interface ChatSpec {
   name: string;
   /** Letter in the avatar circle; defaults to the first letter of `name`. */
   avatar?: string;
+  /** Header status line under the name; defaults to the recovery-tool label. */
+  status?: string;
   /** Contact detail that replaces the header status line — the reveal. */
   detail?: string;
   revealDetailAt?: number;

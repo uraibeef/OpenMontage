@@ -59,6 +59,7 @@ export const ChatScreen: React.FC<{ chat: ChatSpec; backdrop: string }> = ({
       <Header
         name={chat.name}
         avatar={chat.avatar ?? chat.name.slice(0, 1)}
+        status={chat.status ?? "ข้อความที่กู้คืน"}
         detail={showDetail ? chat.detail : undefined}
       />
 
@@ -81,9 +82,10 @@ export const ChatScreen: React.FC<{ chat: ChatSpec; backdrop: string }> = ({
   );
 };
 
-const Header: React.FC<{ name: string; avatar: string; detail?: string }> = ({
+const Header: React.FC<{ name: string; avatar: string; status: string; detail?: string }> = ({
   name,
   avatar,
+  status,
   detail,
 }) => (
   <div
@@ -124,7 +126,7 @@ const Header: React.FC<{ name: string; avatar: string; detail?: string }> = ({
     <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
       <div style={{ color: INK, fontSize: 54, fontWeight: 600 }}>{name}</div>
       <div style={{ color: detail ? RED : MUTED, fontSize: 36, fontWeight: 500 }}>
-        {detail ?? "ข้อความที่กู้คืน"}
+        {detail ?? status}
       </div>
     </div>
   </div>
