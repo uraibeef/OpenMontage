@@ -79,7 +79,7 @@ export interface ChatSpec {
   messages: ChatMessage[];
 }
 
-export type StampTone = "green" | "red";
+export type StampTone = "green" | "red" | "ice";
 
 export interface Caption {
   text: string;
@@ -100,7 +100,10 @@ export interface Episode {
    */
   timestampShots: string[];
   timestampLabel: string;
-  /** Colour of the stamp. Green reads as a machine; red reads as a price. */
+  /**
+   * Colour of the stamp. Green reads as a machine; red reads as a price;
+   * ice is for a product name in an ad.
+   */
   stampTone?: StampTone;
 }
 

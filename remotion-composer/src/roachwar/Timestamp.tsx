@@ -31,6 +31,13 @@ const TONES: Record<StampTone, { text: string; border: string; plate: string; gl
     plate: "rgba(20, 5, 4, 0.5)",
     glow: "rgba(255, 60, 40, 0.55)",
   },
+  // A product name rather than a number: the pale blue of the thing itself.
+  ice: {
+    text: "#eef6ff",
+    border: "rgba(170, 205, 240, 0.45)",
+    plate: "rgba(10, 16, 24, 0.45)",
+    glow: "rgba(150, 200, 255, 0.5)",
+  },
 };
 const HOLD_IN_FRAMES = 8;
 

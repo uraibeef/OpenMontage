@@ -55,6 +55,7 @@ import { EP02_MIDNIGHT_ORDER } from "./unusualtales/ep02-midnight-order";
 import { EP03_CHAT_RECOVERY } from "./unusualtales/ep03-chat-recovery";
 import { EP04_QUEUE_ZERO } from "./unusualtales/ep04-queue-zero";
 import { EP05_MOSQUITO_WAR } from "./unusualtales/ep05-mosquito-war";
+import { USMILE_TWENTY_SECONDS } from "./ads/usmile-twenty-seconds";
 
 // ---------------------------------------------------------------------------
 // Theme System — prevents every video from looking like dark fintech
@@ -496,6 +497,16 @@ export const Root: React.FC = () => {
         width={ROACH_WAR_WIDTH}
         height={ROACH_WAR_HEIGHT}
         defaultProps={{ episode: EP05_MOSQUITO_WAR }}
+      />
+
+      <Composition
+        id="UsmileTwentySeconds"
+        component={RoachWarEpisode}
+        durationInFrames={roachWarTotalFrames(USMILE_TWENTY_SECONDS.shots)}
+        fps={ROACH_WAR_FPS}
+        width={ROACH_WAR_WIDTH}
+        height={ROACH_WAR_HEIGHT}
+        defaultProps={{ episode: USMILE_TWENTY_SECONDS }}
       />
     </>
   );
