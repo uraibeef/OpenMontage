@@ -55,6 +55,7 @@ import { EP02_MIDNIGHT_ORDER } from "./unusualtales/ep02-midnight-order";
 import { EP03_CHAT_RECOVERY } from "./unusualtales/ep03-chat-recovery";
 import { EP04_QUEUE_ZERO } from "./unusualtales/ep04-queue-zero";
 import { EP05_MOSQUITO_WAR } from "./unusualtales/ep05-mosquito-war";
+import { GECKO_LEGEND_EP01 } from "./geckolegend/ep01-sun-goes-out";
 import { USMILE_TWENTY_SECONDS } from "./ads/usmile-twenty-seconds";
 
 // ---------------------------------------------------------------------------
@@ -497,6 +498,16 @@ export const Root: React.FC = () => {
         width={ROACH_WAR_WIDTH}
         height={ROACH_WAR_HEIGHT}
         defaultProps={{ episode: EP05_MOSQUITO_WAR }}
+      />
+
+      <Composition
+        id="GeckoLegendEp01"
+        component={RoachWarEpisode}
+        durationInFrames={roachWarTotalFrames(GECKO_LEGEND_EP01.shots)}
+        fps={ROACH_WAR_FPS}
+        width={ROACH_WAR_WIDTH}
+        height={ROACH_WAR_HEIGHT}
+        defaultProps={{ episode: GECKO_LEGEND_EP01 }}
       />
 
       <Composition

@@ -53,6 +53,14 @@ export interface Shot {
    * plate stays behind it, blurred, as the room the phone is in.
    */
   chat?: ChatSpec;
+  /**
+   * Play a generated clip instead of holding the still. `src` stays the
+   * clip's first frame, so a missing clip degrades to the old still-and-zoom
+   * shot rather than a black hole.
+   */
+  video?: string;
+  /** Seconds into the clip where this shot starts; defaults to 0. */
+  videoStartFrom?: number;
 }
 
 export interface ChatMessage {
@@ -105,7 +113,19 @@ export interface Episode {
    * ice is for a product name in an ad.
    */
   stampTone?: StampTone;
+  /**
+   * "pill" is the tales look: a dark pill low in the frame. "legend" is the
+   * Microlore look: bare white type with a heavy shadow, centred mid-frame.
+   */
+  captionStyle?: CaptionStyle;
+  /** Optional music bed under the narration. */
+  musicSrc?: string;
+  musicVolume?: number;
+  /** Skip the grain and gate weave, for clips that already carry their own. */
+  cleanLook?: boolean;
 }
+
+export type CaptionStyle = "pill" | "legend";
 
 /**
  * Sum the shots' *rounded* frame counts, not the rounded sum of their seconds.

@@ -19,6 +19,12 @@ export const Episode: React.FC<{ episode: EpisodeConfig }> = ({ episode }) => {
   return (
     <AbsoluteFill style={{ backgroundColor: "#000" }}>
       <Audio src={staticFile(episode.voiceoverSrc)} />
+      {episode.musicSrc ? (
+        <Audio
+          src={staticFile(episode.musicSrc)}
+          volume={episode.musicVolume ?? 0.18}
+        />
+      ) : null}
 
       {episode.shots.map((shot, index) => {
         const durationInFrames = Math.round(shot.durationInSeconds * FPS);
@@ -39,12 +45,13 @@ export const Episode: React.FC<{ episode: EpisodeConfig }> = ({ episode }) => {
                   : undefined)
               }
               stampTone={episode.stampTone}
+              cleanLook={episode.cleanLook}
             />
           </Sequence>
         );
       })}
 
-      <Captions captions={episode.captions} />
+      <Captions captions={episode.captions} variant={episode.captionStyle} />
     </AbsoluteFill>
   );
 };

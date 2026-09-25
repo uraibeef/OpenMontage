@@ -1,9 +1,11 @@
 import {
   AbsoluteFill,
   Img,
+  OffthreadVideo,
   interpolate,
   staticFile,
   useCurrentFrame,
+  useVideoConfig,
 } from "remotion";
 import { EmphasisMark } from "../beggar/EmphasisMark";
 import { FilmLook, gateWeave } from "../beggar/FilmLook";
@@ -32,8 +34,11 @@ export const Shot: React.FC<{
   /** The on-screen clock label, when this shot is one that carries it. */
   stamp?: string;
   stampTone?: StampTone;
-}> = ({ shot, durationInFrames, stamp, stampTone }) => {
+  /** Skip grain and gate weave; the generated clips carry their own. */
+  cleanLook?: boolean;
+}> = ({ shot, durationInFrames, stamp, stampTone, cleanLook }) => {
   const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
   const progress = durationInFrames <= 1 ? 0 : frame / (durationInFrames - 1);
 
   const [zoomFrom, zoomTo] = shot.zoom;
@@ -52,7 +57,8 @@ export const Shot: React.FC<{
   // A shot with no zoom and no glow is a held breath: kill the weave too.
   // `steady` kills it on the two loop ends regardless of their movement.
   const isHeld = zoomFrom === zoomTo && !shot.glow;
-  const weave = isHeld || shot.steady ? { x: 0, y: 0 } : gateWeave(frame);
+  const weave =
+    isHeld || shot.steady || cleanLook ? { x: 0, y: 0 } : gateWeave(frame);
 
   return (
     <AbsoluteFill style={{ backgroundColor: "#000", overflow: "hidden" }}>
@@ -64,10 +70,19 @@ export const Shot: React.FC<{
           ].join(" "),
         }}
       >
-        <Img
-          src={staticFile(shot.src)}
-          style={{ width: WIDTH, height: HEIGHT, objectFit: "cover" }}
-        />
+        {shot.video ? (
+          <OffthreadVideo
+            src={staticFile(shot.video)}
+            startFrom={Math.round((shot.videoStartFrom ?? 0) * fps)}
+            muted
+            style={{ width: WIDTH, height: HEIGHT, objectFit: "cover" }}
+          />
+        ) : (
+          <Img
+            src={staticFile(shot.src)}
+            style={{ width: WIDTH, height: HEIGHT, objectFit: "cover" }}
+          />
+        )}
       </AbsoluteFill>
 
       {shot.chat ? <ChatScreen chat={shot.chat} backdrop={shot.src} /> : null}
@@ -80,7 +95,7 @@ export const Shot: React.FC<{
         <EmphasisMark key={index} {...mark} />
       ))}
 
-      <FilmLook />
+      {cleanLook ? null : <FilmLook />}
 
       {stamp ? (
         <Timestamp label={stamp} tone={stampTone} durationInFrames={durationInFrames} />
