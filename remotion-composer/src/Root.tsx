@@ -59,6 +59,7 @@ import { GECKO_LEGEND_EP01 } from "./geckolegend/ep01-sun-goes-out";
 import { GECKO_LEGEND_EP02 } from "./geckolegend/ep02-honey-field";
 import { GECKO_LEGEND_EP03 } from "./geckolegend/ep03-invisible-lightning";
 import { GECKO_LEGEND_EP04 } from "./geckolegend/ep04-hundred-legs";
+import { CHAO_PHRAYA_EP01 } from "./chaophraya/ep01-manna-stops";
 import { USMILE_TWENTY_SECONDS } from "./ads/usmile-twenty-seconds";
 
 // ---------------------------------------------------------------------------
@@ -541,6 +542,16 @@ export const Root: React.FC = () => {
         width={ROACH_WAR_WIDTH}
         height={ROACH_WAR_HEIGHT}
         defaultProps={{ episode: GECKO_LEGEND_EP04 }}
+      />
+
+      <Composition
+        id="ChaoPhrayaEp01"
+        component={RoachWarEpisode}
+        durationInFrames={roachWarTotalFrames(CHAO_PHRAYA_EP01.shots)}
+        fps={ROACH_WAR_FPS}
+        width={ROACH_WAR_WIDTH}
+        height={ROACH_WAR_HEIGHT}
+        defaultProps={{ episode: CHAO_PHRAYA_EP01 }}
       />
 
       <Composition
