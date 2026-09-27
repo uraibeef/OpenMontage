@@ -12,6 +12,12 @@ Source notes: OpenQuok, "Why My TikTok Videos Have Low Views and What to Fix Fir
 - [ ] **AI label on.** Every clip with AI-generated picture or voice (Microlore, สไตล์ tales,
       anything from Kling / Nano Banana / Logan TTS) → turn on "AI-generated content" in the
       post settings. Via API: set the AI-content disclosure field in the post info.
+      Code-drawn reels (`drawn-explainer-reel`) with a human-recorded voice are not AI media;
+      the moment the voice is TTS, the label goes on.
+- [ ] **No-speaker reels have an anchor.** Without a real person on camera, the "face" beats
+      are a locked persona (same host/voice/visual every post) or real phone footage (product
+      in hand, screen recording, place). Pure drawn slides with stock-style overlays read as
+      generic slideshow content, which the source says is crowded and tests worse.
 - [ ] **Hook is new.** The first 2 seconds (first shot + first caption line) differ from the
       last post in the same series. Same series look is fine; same opening is not.
 - [ ] **No face/scale rule breaks** for the style (see `memory/microlore-style` — humans at
