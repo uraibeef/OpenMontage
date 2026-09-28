@@ -111,6 +111,7 @@ Key capability families to look for in the output:
 | Storytelling | `creative/storytelling.md` | Narrative structure, hooks, pacing, Mayer's principles | â€" |
 | Sound Design | `creative/sound-design.md` | Audio ducking, LUFS targets, SFX timing, AI TTS mixing | `elevenlabs` |
 | TikTok Pre-Post Checklist | `creative/tiktok-prepost-checklist.md` | Must-pass checks before posting (AI label, fresh hook, test variable), posting log, account hygiene | — |
+| Product Angle Matrix | `creative/product-angle-matrix.md` | 1 product → 10 content angles (unboxing, how-to, comparison, POV…), honesty limits, hook pairing, approval output | — |
 | Typography | `creative/typography.md` | Font selection, text sizing, safe zones, caption styling | â€" |
 | ManimCE Usage | `creative/manim-usage.md` | Scene composition, animation timing, color usage | `manimce-best-practices` |
 | Image Gen Usage | `creative/image-gen-usage.md` | Prompt consistency, hero reference, batch strategy | `flux-best-practices`, `bfl-api` |
