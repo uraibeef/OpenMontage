@@ -147,7 +147,7 @@ const BEATS: readonly Beat[] = [
     from: 13.09,
     to: 15.85,
     shots: [{ clip: "methaad02/a07", to: 14.38 }, { clip: "methaad02/a08" }],
-    Hook: () => <RosetteAward cx={330} cy={1220} banner="วันสำคัญ" bannerAt={rel(13.09, 14.38)} />,
+    Hook: () => <RosetteAward cx={290} cy={1480} banner="วันสำคัญ" bannerAt={rel(13.09, 14.38)} />,
   },
   {
     from: 15.85,

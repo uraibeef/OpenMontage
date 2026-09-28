@@ -21,7 +21,7 @@ const Bottle = () => (
 /** Spray can: nozzle cap, mist puffs. */
 const SprayCan = () => (
   <g>
-    <rect x={-42} y={-60} width={84} height={150} rx={14} fill="#2F8F4E" {...line} />
+    <rect x={-42} y={-60} width={84} height={150} rx={14} fill="#F2F2F2" {...line} />
     <path d="M -42 -52 Q 0 -96 42 -52" fill="#BFBFBF" {...line} />
     <rect x={-10} y={-100} width={24} height={24} rx={4} fill={INK} />
     <circle cx={44} cy={-96} r={9} fill="none" stroke={C.blue} strokeWidth={5} />
