@@ -1,3 +1,11 @@
+import { SprayAd08, SPRAY_AD_08_FPS, SPRAY_AD_08_SECONDS } from "./methaad/spray08/SprayAd08";
+import { SprayAd07, SPRAY_AD_07_FPS, SPRAY_AD_07_SECONDS } from "./methaad/spray07/SprayAd07";
+import { SprayAd06, SPRAY_AD_06_FPS, SPRAY_AD_06_SECONDS } from "./methaad/spray06/SprayAd06";
+import { SprayAd05, SPRAY_AD_05_FPS, SPRAY_AD_05_SECONDS } from "./methaad/spray05/SprayAd05";
+import { SprayAd04, SPRAY_AD_04_FPS, SPRAY_AD_04_SECONDS } from "./methaad/spray04/SprayAd04";
+import { SprayAd03, SPRAY_AD_03_FPS, SPRAY_AD_03_SECONDS } from "./methaad/spray03/SprayAd03";
+import { SprayAd02, SPRAY_AD_02_FPS, SPRAY_AD_02_SECONDS } from "./methaad/spray02/SprayAd02";
+import { SprayAd01, SPRAY_AD_01_FPS, SPRAY_AD_01_SECONDS } from "./methaad/spray01/SprayAd01";
 import { HairAd05, HAIR_AD_05_FPS, HAIR_AD_05_SECONDS } from "./methaad/ad05/HairAd05";
 import { HairAd06, HAIR_AD_06_FPS, HAIR_AD_06_SECONDS } from "./methaad/ad06/HairAd06";
 import { HairAd07, HAIR_AD_07_FPS, HAIR_AD_07_SECONDS } from "./methaad/ad07/HairAd07";
@@ -634,6 +642,70 @@ export const Root: React.FC = () => {
         component={HairAd10}
         durationInFrames={Math.round(HAIR_AD_10_SECONDS * HAIR_AD_10_FPS)}
         fps={HAIR_AD_10_FPS}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="MethaSprayAd08"
+        component={SprayAd08}
+        durationInFrames={Math.round(SPRAY_AD_08_SECONDS * SPRAY_AD_08_FPS)}
+        fps={SPRAY_AD_08_FPS}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="MethaSprayAd07"
+        component={SprayAd07}
+        durationInFrames={Math.round(SPRAY_AD_07_SECONDS * SPRAY_AD_07_FPS)}
+        fps={SPRAY_AD_07_FPS}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="MethaSprayAd06"
+        component={SprayAd06}
+        durationInFrames={Math.round(SPRAY_AD_06_SECONDS * SPRAY_AD_06_FPS)}
+        fps={SPRAY_AD_06_FPS}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="MethaSprayAd05"
+        component={SprayAd05}
+        durationInFrames={Math.round(SPRAY_AD_05_SECONDS * SPRAY_AD_05_FPS)}
+        fps={SPRAY_AD_05_FPS}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="MethaSprayAd04"
+        component={SprayAd04}
+        durationInFrames={Math.round(SPRAY_AD_04_SECONDS * SPRAY_AD_04_FPS)}
+        fps={SPRAY_AD_04_FPS}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="MethaSprayAd03"
+        component={SprayAd03}
+        durationInFrames={Math.round(SPRAY_AD_03_SECONDS * SPRAY_AD_03_FPS)}
+        fps={SPRAY_AD_03_FPS}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="MethaSprayAd02"
+        component={SprayAd02}
+        durationInFrames={Math.round(SPRAY_AD_02_SECONDS * SPRAY_AD_02_FPS)}
+        fps={SPRAY_AD_02_FPS}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="MethaSprayAd01"
+        component={SprayAd01}
+        durationInFrames={Math.round(SPRAY_AD_01_SECONDS * SPRAY_AD_01_FPS)}
+        fps={SPRAY_AD_01_FPS}
         width={1080}
         height={1920}
       />
