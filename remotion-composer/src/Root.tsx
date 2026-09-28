@@ -1,3 +1,5 @@
+import { SprayAd10, SPRAY_AD_10_FPS, SPRAY_AD_10_SECONDS } from "./methaad/spray10/SprayAd10";
+import { SprayAd09, SPRAY_AD_09_FPS, SPRAY_AD_09_SECONDS } from "./methaad/spray09/SprayAd09";
 import { SprayAd08, SPRAY_AD_08_FPS, SPRAY_AD_08_SECONDS } from "./methaad/spray08/SprayAd08";
 import { SprayAd07, SPRAY_AD_07_FPS, SPRAY_AD_07_SECONDS } from "./methaad/spray07/SprayAd07";
 import { SprayAd06, SPRAY_AD_06_FPS, SPRAY_AD_06_SECONDS } from "./methaad/spray06/SprayAd06";
@@ -642,6 +644,22 @@ export const Root: React.FC = () => {
         component={HairAd10}
         durationInFrames={Math.round(HAIR_AD_10_SECONDS * HAIR_AD_10_FPS)}
         fps={HAIR_AD_10_FPS}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="MethaSprayAd10"
+        component={SprayAd10}
+        durationInFrames={Math.round(SPRAY_AD_10_SECONDS * SPRAY_AD_10_FPS)}
+        fps={SPRAY_AD_10_FPS}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="MethaSprayAd09"
+        component={SprayAd09}
+        durationInFrames={Math.round(SPRAY_AD_09_SECONDS * SPRAY_AD_09_FPS)}
+        fps={SPRAY_AD_09_FPS}
         width={1080}
         height={1920}
       />
