@@ -24,6 +24,7 @@ import {
   TypeHook,
 } from "./hooks/Hooks";
 import { Sfx, SfxId } from "./hooks/Sfx";
+import { ShotDryerStills } from "./shots/ShotDryerStills";
 import { ShotGelInk } from "./shots/ShotGelInk";
 import { ShotVolumeBlueprint } from "./shots/ShotVolumeBlueprint";
 
@@ -59,7 +60,7 @@ const BEATS: readonly Beat[] = [
   {
     from: 9.99,
     to: 13.8,
-    clip: "b05",
+    Cut: ShotDryerStills,
     Hook: () => (
       <SlamStack
         y={1380}
@@ -91,6 +92,8 @@ export const HAIR_AD_01_SECONDS = BEATS[BEATS.length - 1].to;
 const HITS: readonly [SfxId, number, number][] = [
   ["whoosh", 6.78, 0.5],
   ["thud", 7.72, 0.7],
+  ["thud", 10.86, 0.45],
+  ["thud", 11.72, 0.45],
   ["pop", 13.82, 0.5],
   ["click", 15.48, 0.5],
   ["click", 16.62, 0.5],
