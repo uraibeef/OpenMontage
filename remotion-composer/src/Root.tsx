@@ -1,3 +1,6 @@
+import { HairAd02, HAIR_AD_02_FPS, HAIR_AD_02_SECONDS } from "./methaad/ad02/HairAd02";
+import { HairAd03, HAIR_AD_03_FPS, HAIR_AD_03_SECONDS } from "./methaad/ad03/HairAd03";
+import { HairAd04, HAIR_AD_04_FPS, HAIR_AD_04_SECONDS } from "./methaad/ad04/HairAd04";
 import { FxKitGallery, FX_GALLERY_FRAMES } from "./fxkit/FxKitGallery";
 import { Composition, CalculateMetadataFunction } from "remotion";
 import { Explainer, ExplainerProps } from "./Explainer";
@@ -552,6 +555,30 @@ export const Root: React.FC = () => {
         component={HairAd01}
         durationInFrames={Math.round(HAIR_AD_01_SECONDS * HAIR_AD_01_FPS)}
         fps={HAIR_AD_01_FPS}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="MethaHairAd02"
+        component={HairAd02}
+        durationInFrames={Math.round(HAIR_AD_02_SECONDS * HAIR_AD_02_FPS)}
+        fps={HAIR_AD_02_FPS}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="MethaHairAd03"
+        component={HairAd03}
+        durationInFrames={Math.round(HAIR_AD_03_SECONDS * HAIR_AD_03_FPS)}
+        fps={HAIR_AD_03_FPS}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="MethaHairAd04"
+        component={HairAd04}
+        durationInFrames={Math.round(HAIR_AD_04_SECONDS * HAIR_AD_04_FPS)}
+        fps={HAIR_AD_04_FPS}
         width={1080}
         height={1920}
       />
