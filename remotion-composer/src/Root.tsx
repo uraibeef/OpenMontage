@@ -1,3 +1,4 @@
+import { FxKitGallery, FX_GALLERY_FRAMES } from "./fxkit/FxKitGallery";
 import { Composition, CalculateMetadataFunction } from "remotion";
 import { Explainer, ExplainerProps } from "./Explainer";
 import {
@@ -551,6 +552,14 @@ export const Root: React.FC = () => {
         component={HairAd01}
         durationInFrames={Math.round(HAIR_AD_01_SECONDS * HAIR_AD_01_FPS)}
         fps={HAIR_AD_01_FPS}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="FxKitGallery"
+        component={FxKitGallery}
+        durationInFrames={FX_GALLERY_FRAMES}
+        fps={30}
         width={1080}
         height={1920}
       />
