@@ -1,3 +1,9 @@
+import { HairAd05, HAIR_AD_05_FPS, HAIR_AD_05_SECONDS } from "./methaad/ad05/HairAd05";
+import { HairAd06, HAIR_AD_06_FPS, HAIR_AD_06_SECONDS } from "./methaad/ad06/HairAd06";
+import { HairAd07, HAIR_AD_07_FPS, HAIR_AD_07_SECONDS } from "./methaad/ad07/HairAd07";
+import { HairAd08, HAIR_AD_08_FPS, HAIR_AD_08_SECONDS } from "./methaad/ad08/HairAd08";
+import { HairAd09, HAIR_AD_09_FPS, HAIR_AD_09_SECONDS } from "./methaad/ad09/HairAd09";
+import { HairAd10, HAIR_AD_10_FPS, HAIR_AD_10_SECONDS } from "./methaad/ad10/HairAd10";
 import { HairAd02, HAIR_AD_02_FPS, HAIR_AD_02_SECONDS } from "./methaad/ad02/HairAd02";
 import { HairAd03, HAIR_AD_03_FPS, HAIR_AD_03_SECONDS } from "./methaad/ad03/HairAd03";
 import { HairAd04, HAIR_AD_04_FPS, HAIR_AD_04_SECONDS } from "./methaad/ad04/HairAd04";
@@ -66,6 +72,7 @@ import { GECKO_LEGEND_EP04 } from "./geckolegend/ep04-hundred-legs";
 import { HairAd01, HAIR_AD_01_FPS, HAIR_AD_01_SECONDS } from "./methaad/HairAd01";
 import { CHAO_PHRAYA_EP01 } from "./chaophraya/ep01-manna-stops";
 import { CHAO_PHRAYA_EP02 } from "./chaophraya/ep02-river-mouth";
+import { CHAO_PHRAYA_EP03 } from "./chaophraya/ep03-gods-net";
 import { USMILE_TWENTY_SECONDS } from "./ads/usmile-twenty-seconds";
 
 // ---------------------------------------------------------------------------
@@ -583,6 +590,54 @@ export const Root: React.FC = () => {
         height={1920}
       />
       <Composition
+        id="MethaHairAd05"
+        component={HairAd05}
+        durationInFrames={Math.round(HAIR_AD_05_SECONDS * HAIR_AD_05_FPS)}
+        fps={HAIR_AD_05_FPS}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="MethaHairAd06"
+        component={HairAd06}
+        durationInFrames={Math.round(HAIR_AD_06_SECONDS * HAIR_AD_06_FPS)}
+        fps={HAIR_AD_06_FPS}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="MethaHairAd07"
+        component={HairAd07}
+        durationInFrames={Math.round(HAIR_AD_07_SECONDS * HAIR_AD_07_FPS)}
+        fps={HAIR_AD_07_FPS}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="MethaHairAd08"
+        component={HairAd08}
+        durationInFrames={Math.round(HAIR_AD_08_SECONDS * HAIR_AD_08_FPS)}
+        fps={HAIR_AD_08_FPS}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="MethaHairAd09"
+        component={HairAd09}
+        durationInFrames={Math.round(HAIR_AD_09_SECONDS * HAIR_AD_09_FPS)}
+        fps={HAIR_AD_09_FPS}
+        width={1080}
+        height={1920}
+      />
+      <Composition
+        id="MethaHairAd10"
+        component={HairAd10}
+        durationInFrames={Math.round(HAIR_AD_10_SECONDS * HAIR_AD_10_FPS)}
+        fps={HAIR_AD_10_FPS}
+        width={1080}
+        height={1920}
+      />
+      <Composition
         id="FxKitGallery"
         component={FxKitGallery}
         durationInFrames={FX_GALLERY_FRAMES}
@@ -609,6 +664,16 @@ export const Root: React.FC = () => {
         width={ROACH_WAR_WIDTH}
         height={ROACH_WAR_HEIGHT}
         defaultProps={{ episode: CHAO_PHRAYA_EP02 }}
+      />
+
+      <Composition
+        id="ChaoPhrayaEp03"
+        component={RoachWarEpisode}
+        durationInFrames={roachWarTotalFrames(CHAO_PHRAYA_EP03.shots)}
+        fps={ROACH_WAR_FPS}
+        width={ROACH_WAR_WIDTH}
+        height={ROACH_WAR_HEIGHT}
+        defaultProps={{ episode: CHAO_PHRAYA_EP03 }}
       />
 
       <Composition
