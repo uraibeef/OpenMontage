@@ -18,6 +18,7 @@ import { Riso, RISO, TearReveal, Glitch, Flash, PunchIn, SpeedLines, PaperGrain 
 | `SpeedLines` | Manga speed lines rushing to a focus point; they redraw every 2 frames. | `dur`, `count`, `color`, `cx`, `cy`, `hole` |
 | `Flash` | Full-frame colour flash fading out. | `dur`, `color`, `peak` |
 | `PunchIn` | Scale snap on a cut (1+amount → 1). Wrap each new shot. | `amount`, `dur` |
+| `TimeCut` | Re-times a whole composition: keeps only given source frame ranges back-to-back (picture + sound), so removed VO gaps become jump cuts; alternating punch zoom every ≤ `maxHold` frames. Build ranges with `projects/_ads/tools/gapcut.py vo.mp3 <sec>`. Helpers `mapFrame`, `cutPoints`, `cutLength` place overlays/SFX on the cut timeline. | `keep`, `zoom`, `maxHold` |
 | `PaperGrain` | Multiply grain texture over flat graphics. | `id`, `opacity` |
 
 Notes
@@ -26,3 +27,5 @@ Notes
   exact cut time (see `projects/metha-hair-ad-01/cut_v5.py`).
 - Pairs that print well: blue/pink (default), black/red, teal/yellow.
 - First used in `src/methaad/HairAd01.tsx` (v5).
+
+Retention recipe: see `projects/_ads/RETENTION_RESEARCH.md`. Beat bed (synth, license-free): `public/fxkit/beat_bed_100.wav` from `projects/_ads/tools/beat_bed.py`.

@@ -1,3 +1,4 @@
+import { HairAd02Retention, HAIR_AD_02R_FRAMES } from "./methaad/ad02/Retention";
 import { SprayAd10, SPRAY_AD_10_FPS, SPRAY_AD_10_SECONDS } from "./methaad/spray10/SprayAd10";
 import { SprayAd09, SPRAY_AD_09_FPS, SPRAY_AD_09_SECONDS } from "./methaad/spray09/SprayAd09";
 import { SprayAd08, SPRAY_AD_08_FPS, SPRAY_AD_08_SECONDS } from "./methaad/spray08/SprayAd08";
@@ -582,6 +583,24 @@ export const Root: React.FC = () => {
         fps={HAIR_AD_02_FPS}
         width={1080}
         height={1920}
+      />
+      <Composition
+        id="MethaHairAd02R"
+        component={HairAd02Retention}
+        durationInFrames={HAIR_AD_02R_FRAMES}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{ bed: false }}
+      />
+      <Composition
+        id="MethaHairAd02RB"
+        component={HairAd02Retention}
+        durationInFrames={HAIR_AD_02R_FRAMES}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{ bed: true }}
       />
       <Composition
         id="MethaHairAd03"
