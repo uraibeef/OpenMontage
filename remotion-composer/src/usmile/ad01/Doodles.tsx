@@ -43,7 +43,7 @@ interface ToothpickProps {
 }
 
 /** The writer: a sharp-tipped stick with an upright face near its blunt end. */
-function Toothpick({ x, y, rot, mood = "flat", t = 0, scale = 1, look = "front" }: ToothpickProps) {
+export function Toothpick({ x, y, rot, mood = "flat", t = 0, scale = 1, look = "front" }: ToothpickProps) {
   const eyeDx = look === "side" ? 9 : 0;
   const drop = (t % 30) / 30;
   return (

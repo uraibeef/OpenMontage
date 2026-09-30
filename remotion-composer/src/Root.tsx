@@ -1,4 +1,5 @@
 import { HairAd02Retention, HAIR_AD_02R_FRAMES } from "./methaad/ad02/Retention";
+import { UsmileCover01 } from "./usmile/ad01/UsmileCover01";
 import { UsmileAd01, USMILE_AD_01_FPS, USMILE_AD_01_SECONDS } from "./usmile/ad01/UsmileAd01";
 import { SprayAd10, SPRAY_AD_10_FPS, SPRAY_AD_10_SECONDS } from "./methaad/spray10/SprayAd10";
 import { SprayAd09, SPRAY_AD_09_FPS, SPRAY_AD_09_SECONDS } from "./methaad/spray09/SprayAd09";
@@ -669,6 +670,7 @@ export const Root: React.FC = () => {
         width={1080}
         height={1920}
       />
+      <Composition id="UsmileCover01" component={UsmileCover01} durationInFrames={1} fps={30} width={1080} height={1920} />
       <Composition
         id="UsmileAd01"
         component={UsmileAd01}
