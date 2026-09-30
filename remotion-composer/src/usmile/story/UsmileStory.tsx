@@ -13,7 +13,7 @@ import { AMBER, BLOCK, s, T, WHITE } from "../ad03/style";
 
 export const STORY_FPS = 30;
 const clamp = { extrapolateLeft: "clamp", extrapolateRight: "clamp" } as const;
-const BLEED = 1.34;
+const DEFAULT_BLEED = 1.5;
 const CAP_X = 140;
 const CAP_W = 800;
 const CAP_TOP = 1090;
@@ -36,6 +36,8 @@ export interface StorySpec {
   /** [from, to, text]; `*word*` = amber keyword, `\n` = line break. */
   lines: [number, number, string][];
   chips?: [number, number, string][];
+  /** Over-scale of the footage (hides edge captions/watermarks). Default 1.5; older specs pin 1.34. */
+  bleed?: number;
 }
 
 function mergeBoxes(boxes: number[][]): number[][] {
@@ -63,13 +65,15 @@ function mergeBoxes(boxes: number[][]): number[][] {
 const area = (b: number[]) => (b[2] - b[0]) * (b[3] - b[1]);
 /** Merge, then keep the 3 biggest boxes per clip so labels stay a few deliberate accents, not a pile. */
 const BOXES: Record<string, number[][]> = Object.fromEntries(Object.entries(boxCache as Record<string, number[][]>).map(([k, v]) => [k, mergeBoxes(v).sort((a, b) => area(b) - area(a)).slice(0, 3)]));
-const onScreen = (y0: number, y1: number) => {
-  const sy = (n: number) => 0.32 * 1920 + (n * 1920 - 0.32 * 1920) * BLEED;
-  const c = sy((y0 + y1) / 2);
-  return c > 150 && c < 1880;
+const onScreen = (x0: number, y0: number, x1: number, y1: number, bleed: number) => {
+  const sy = (n: number) => 0.32 * 1920 + (n * 1920 - 0.32 * 1920) * bleed;
+  const sx = (n: number) => 540 + (n * 1080 - 540) * bleed;
+  const cy = sy((y0 + y1) / 2);
+  const cx = sx((x0 + x1) / 2);
+  return cy > 150 && cy < 1880 && cx > 120 && cx < 960;
 };
 
-function Clip({ shot }: { shot: StoryShot }) {
+function Clip({ shot, bleed }: { shot: StoryShot; bleed: number }) {
   const frame = useCurrentFrame();
   const slot = shot.to - shot.from;
   const start = shot.start ?? 0;
@@ -78,10 +82,10 @@ function Clip({ shot }: { shot: StoryShot }) {
   const push = interpolate(frame, [0, s(slot)], [1.0, 1.05], clamp);
   return (
     <div style={{ position: "absolute", inset: 0, overflow: "hidden" }}>
-      <div style={{ position: "absolute", left: 0, top: 0, width: 1080, height: 1920, transform: `scale(${BLEED * pop * push * (shot.zoom ?? 1)})`, transformOrigin: "50% 32%" }}>
+      <div style={{ position: "absolute", left: 0, top: 0, width: 1080, height: 1920, transform: `scale(${bleed * pop * push * (shot.zoom ?? 1)})`, transformOrigin: "50% 32%" }}>
         <OffthreadVideo src={staticFile(`usmile/${shot.clip}.mp4`)} muted startFrom={s(start)} playbackRate={rate} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         {(BOXES[shot.clip] ?? [])
-          .filter(([, y0, , y1]) => onScreen(y0, y1))
+          .filter(([x0, y0, x1, y1]) => onScreen(x0, y0, x1, y1, bleed))
           .map(([x0, y0, x1, y1], i) => (
             <RisoCover key={i} id={`rc-${shot.clip}-${i}`} fontFamily={T.cap} seed={i * 3 + Number(shot.clip.slice(1))} x={x0 * 1080} y={y0 * 1920} w={(x1 - x0) * 1080} h={(y1 - y0) * 1920} />
           ))}
@@ -141,7 +145,7 @@ export function UsmileStory({ spec }: { spec: StorySpec }) {
       <div style={{ position: "absolute", inset: 0, overflow: "hidden", background: "#000" }}>
         {spec.shots.map((sh) => (
           <Sequence key={sh.clip + sh.from} from={s(sh.from)} durationInFrames={Math.max(1, s(sh.to - sh.from))} layout="none">
-            <Clip shot={sh} />
+            <Clip shot={sh} bleed={spec.bleed ?? DEFAULT_BLEED} />
           </Sequence>
         ))}
       </div>
