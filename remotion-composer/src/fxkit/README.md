@@ -19,6 +19,7 @@ import { Riso, RISO, TearReveal, Glitch, Flash, PunchIn, SpeedLines, PaperGrain 
 | `Flash` | Full-frame colour flash fading out. | `dur`, `color`, `peak` |
 | `PunchIn` | Scale snap on a cut (1+amount → 1). Wrap each new shot. | `amount`, `dur` |
 | `TimeCut` | Re-times a whole composition: keeps only given source frame ranges back-to-back (picture + sound), so removed VO gaps become jump cuts; alternating punch zoom every ≤ `maxHold` frames. Build ranges with `projects/_ads/tools/gapcut.py vo.mp3 <sec>`. Helpers `mapFrame`, `cutPoints`, `cutLength` place overlays/SFX on the cut timeline. | `keep`, `zoom`, `maxHold` |
+| `RisoCover` | Riso sticker patch that hides burned-in text/watermarks (rough torn edge, halftone dots, misregistered second ink, tilt, boil). Feed it rectangles from `projects/_ads/tools/ocr/text_boxes.py`. | `x y w h`, `seed`, `pad`, `minW/minH`, unique `id` |
 | `PaperGrain` | Multiply grain texture over flat graphics. | `id`, `opacity` |
 
 Notes

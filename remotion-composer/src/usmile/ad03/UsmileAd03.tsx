@@ -9,12 +9,41 @@
  * white/amber Kanit captions, no doodles, no price, VO only.
  */
 import { useLayoutEffect, useRef, useState } from "react";
+import { RisoCover } from "../../fxkit";
 import { AbsoluteFill, Audio, Easing, interpolate, OffthreadVideo, Sequence, staticFile, useCurrentFrame } from "remotion";
 import { AMBER, BLOCK, s, T, WHITE } from "./style";
 import textBoxes from "./textBoxes.json";
 
 /** OCR'd rectangles (normalized) of burned-in CJK/Hangul text + watermarks per clip; blurred, not re-encoded. */
-const BOXES = textBoxes as Record<string, number[][]>;
+/** Merge overlapping / near-touching rectangles so one caption = one label (OCR samples 3 frames per clip). */
+function mergeBoxes(boxes: number[][]): number[][] {
+  const out = boxes.map((b) => [...b]);
+  let changed = true;
+  while (changed) {
+    changed = false;
+    for (let i = 0; i < out.length && !changed; i++) {
+      for (let j = i + 1; j < out.length && !changed; j++) {
+        const a = out[i];
+        const b = out[j];
+        const g = 0.02;
+        if (a[0] - g < b[2] && b[0] - g < a[2] && a[1] - g < b[3] && b[1] - g < a[3]) {
+          const m = [Math.min(a[0], b[0]), Math.min(a[1], b[1]), Math.max(a[2], b[2]), Math.max(a[3], b[3])];
+          if (m[2] - m[0] > 0.92 || m[3] - m[1] > 0.1) continue; // keep big unions apart: labels stay caption-sized
+          out[i] = m;
+          out.splice(j, 1);
+          changed = true;
+        }
+      }
+    }
+  }
+  return out;
+}
+const BOXES: Record<string, number[][]> = Object.fromEntries(Object.entries(textBoxes as Record<string, number[][]>).map(([k, v]) => [k, mergeBoxes(v)]));
+/** Only boxes that land inside the visible (over-scaled) frame get a label. */
+const onScreen = (y0: number, y1: number) => {
+  const sy = (n: number) => 0.32 * 1920 + (n * 1920 - 0.32 * 1920) * BLEED;
+  return sy((y0 + y1) / 2) > 150 && sy((y0 + y1) / 2) < 1880;
+};
 
 export const USMILE_AD_03_FPS = 30;
 export const USMILE_AD_03_SECONDS = 33.6;
@@ -102,8 +131,8 @@ function Clip({ shot }: { shot: Shot }) {
     <div style={{ position: "absolute", inset: 0, overflow: "hidden" }}>
       <div style={{ position: "absolute", left: 0, top: 0, width: 1080, height: 1920, transform: `scale(${BLEED * pop * push * (shot.zoom ?? 1)})`, transformOrigin: "50% 32%" }}>
         <OffthreadVideo src={staticFile(`usmile03/${shot.clip}.mp4`)} muted startFrom={s(start)} playbackRate={rate} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-        {(BOXES[shot.clip] ?? []).map(([x0, y0, x1, y1], i) => (
-          <div key={i} style={{ position: "absolute", left: x0 * 1080, top: y0 * 1920, width: (x1 - x0) * 1080, height: (y1 - y0) * 1920, backdropFilter: "blur(26px)", background: "rgba(20,20,20,0.12)" }} />
+        {(BOXES[shot.clip] ?? []).filter(([x0, y0, x1, y1]) => onScreen(y0, y1)).map(([x0, y0, x1, y1], i) => (
+          <RisoCover key={i} id={`rc-${shot.clip}-${i}`} fontFamily={T.cap} seed={i * 3 + Number(shot.clip.slice(1))} x={x0 * 1080} y={y0 * 1920} w={(x1 - x0) * 1080} h={(y1 - y0) * 1920} />
         ))}
       </div>
     </div>
