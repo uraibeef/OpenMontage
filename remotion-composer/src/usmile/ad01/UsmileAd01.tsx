@@ -10,6 +10,7 @@
  */
 import { AbsoluteFill, Audio, Easing, interpolate, OffthreadVideo, Sequence, staticFile, useCurrentFrame } from "remotion";
 import { PaperGrain } from "../../fxkit";
+import { SceneBreakup, SceneEveryMeal, SceneInTheBox, SceneMatchmaker, SceneNotTheOne, ScenePokes, ScenePushDeeper, SceneWhistle } from "./Doodles";
 import { INK, NOTE_BLUE, NOTE_YELLOW, PAPER, PEN_RED, s, T } from "./style";
 
 export const USMILE_AD_01_FPS = 30;
@@ -29,43 +30,44 @@ interface Shot {
 }
 
 const SHOTS: readonly Shot[] = [
-  { from: 0, to: 1.44, clip: "s0421", srcLen: 3.0, anchorY: 0.4 },
-  { from: 1.44, to: 2.74, clip: "s0444", srcLen: 3.62, anchorY: 0.3 },
-  { from: 2.74, to: 4.16, clip: "s0445", srcLen: 4.35, anchorY: 0.3 },
-  { from: 4.16, to: 4.96, clip: "s0424", srcLen: 3.0, anchorY: 0.4 },
-  { from: 4.96, to: 7.0, clip: "s0430", srcLen: 3.0, anchorY: 0.4 },
-  { from: 7.0, to: 8.56, clip: "s0428", srcLen: 3.0, anchorY: 0.4 },
-  { from: 8.56, to: 10.0, clip: "s0018", srcLen: 3.0, anchorY: 0.4 },
-  { from: 10.0, to: 11.76, clip: "s0426", srcLen: 3.0, anchorY: 0.4 },
-  { from: 11.76, to: 13.16, clip: "s0433", srcLen: 2.82, anchorY: 0.4 },
   { from: 13.16, to: 15.32, clip: "s0008", srcLen: 1.77, anchorY: 0.75, zoom: 1.15 },
   { from: 15.32, to: 16.16, clip: "s0450", srcLen: 3.0, anchorY: 0.5 },
   { from: 16.16, to: 17.84, clip: "s0011", srcLen: 3.0, anchorY: 0.2, zoom: 1.32 },
   { from: 17.84, to: 19.48, clip: "s0187", srcLen: 3.0, anchorY: 0.15 },
   { from: 19.48, to: 21.12, clip: "s0194", srcLen: 3.0, anchorY: 0.2 },
-  { from: 21.12, to: 22.32, clip: "s0422", srcLen: 3.0, anchorY: 0.4 },
-  { from: 22.32, to: 24.04, clip: "s0442", srcLen: 2.0, anchorY: 0.4 },
-  { from: 24.04, to: USMILE_AD_01_SECONDS, clip: "s0271", srcLen: 3.0, anchorY: 0.4 },
 ];
+
+/** Hand-drawn scenes where the toothpick acts out the letter (see Doodles.tsx). */
+const SCENES: readonly { from: number; to: number; Scene: () => JSX.Element }[] = [
+  { from: 0, to: 1.44, Scene: SceneBreakup },
+  { from: 1.44, to: 4.96, Scene: ScenePokes },
+  { from: 4.96, to: 7.0, Scene: SceneNotTheOne },
+  { from: 7.0, to: 10.0, Scene: ScenePushDeeper },
+  { from: 10.0, to: 11.76, Scene: SceneEveryMeal },
+  { from: 11.76, to: 13.16, Scene: SceneMatchmaker },
+  { from: 21.12, to: 22.32, Scene: SceneWhistle },
+  { from: 22.32, to: USMILE_AD_01_SECONDS, Scene: SceneInTheBox },
+];
+const CUT_TIMES = [...SHOTS.map((x) => x.from), ...SCENES.map((x) => x.from)];
 
 /** Ink lines: [from, to, text]. Each is wiped in left-to-right like a pen stroke. */
 const LINES: readonly [number, number, string][] = [
   [0.0, 1.44, "ถึงมึง... กูขอเลิก"],
   [1.44, 2.74, "สิบปีที่เราคบกัน"],
-  [2.74, 4.16, "กูทำให้มึงเจ็บไปกี่รอบ"],
+  [2.74, 4.16, "กูทำให้มึงเจ็บ\nไปกี่รอบ"],
   [4.16, 4.96, "กูไม่กล้านับ"],
-  [4.96, 7.0, "กูรู้ตัวแล้วว่า กูไม่ใช่คนที่ใช่"],
-  [7.0, 8.56, "กูไม่เคยเอาเศษออกจริงๆ"],
-  [8.56, 10.0, "กูแค่ดันมันให้ลึกกว่าเดิม"],
+  [4.96, 7.0, "กูรู้ตัวแล้วว่า\nกูไม่ใช่คนที่ใช่"],
+  [7.0, 8.56, "กูไม่เคยเอาเศษ\nออกจริงๆ"],
+  [8.56, 10.0, "กูแค่ดันมัน\nให้ลึกกว่าเดิม"],
   [10.0, 11.76, "แต่มึงก็ยังกลับมาหากู\nทุกมื้อ"],
-  [11.76, 13.16, "กูเลยหาคนใหม่ให้มึงแล้ว"],
-  [13.16, 15.32, "ไหมขัดฟันพลังน้ำ Usmile"],
+  [11.76, 13.16, "กูเลยหาคนใหม่\nให้มึงแล้ว"],
+  [13.16, 15.32, "ไหมขัดฟันพลังน้ำ\nUsmile"],
   [15.32, 16.16, "ใช้น้ำซัด"],
   [16.16, 17.84, "ไม่ต้องจิ้ม\nปรับได้ 4 ระดับ"],
   [17.84, 19.48, "หัวฉีดนุ่ม ไม่บาดเหงือก"],
-  [19.48, 21.12, "ชาร์จทีเดียว อยู่ได้ 3 เดือน"],
+  [19.48, 21.12, "ชาร์จทีเดียว\nอยู่ได้ 3 เดือน"],
   [21.12, 22.32, "ซื่อสัตย์กว่ากูเยอะ"],
-  [22.32, 24.04, "ส่วนกู ไม่หายไปไหนหรอก"],
+  [22.32, 24.04, "ส่วนกู\nไม่หายไปไหนหรอก"],
   [24.04, USMILE_AD_01_SECONDS, "ยังนอนอยู่ในกล่อง\nข้างโต๊ะกินข้าวมึงนั่นแหละ"],
 ];
 
@@ -116,16 +118,23 @@ function Tape({ x, y, rot }: { x: number; y: number; rot: number }) {
 function Photo() {
   const frame = useCurrentFrame();
   const t = frame / 30;
-  const cutAt = SHOTS.map((sh) => sh.from).filter((f) => f <= t).pop() ?? 0;
+  const cutAt = Math.max(...CUT_TIMES.filter((f) => f <= t));
   const since = (t - cutAt) * 30;
   const flick = since < 5 ? interpolate(since, [0, 5], [1, 0], clamp) : 0;
-  const idx = SHOTS.findIndex((sh) => sh.from === cutAt);
+  const idx = CUT_TIMES.indexOf(cutAt);
   const rot = -1.1 + (idx % 2 === 0 ? 1 : -1) * flick * 0.9;
   return (
     <div style={{ position: "absolute", left: 60, top: 70, width: 960, height: 1040, transform: `rotate(${rot}deg)` }}>
       <div style={{ position: "absolute", inset: 0, background: "#fff", boxShadow: "0 18px 40px rgba(40,30,10,0.35)", padding: 0 }} />
       <div style={{ position: "absolute", inset: 14, overflow: "hidden", background: "#111" }}>
         <div style={{ position: "absolute", inset: 0, width: 932, height: 1012 }}>
+          {SCENES.map(({ from, to, Scene }) => (
+            <Sequence key={"sc" + from} from={s(from)} durationInFrames={s(to - from)} layout="none">
+              <div style={{ position: "absolute", inset: 0, width: 932, height: 1012 }}>
+                <Scene />
+              </div>
+            </Sequence>
+          ))}
           {SHOTS.map((sh) => (
             <Sequence key={sh.clip + sh.from} from={s(sh.from)} durationInFrames={s(sh.to - sh.from)} layout="none">
               <div style={{ position: "absolute", inset: 0, width: 960, height: 1040, transform: "scale(0.97)", transformOrigin: "0 0" }}>
@@ -146,7 +155,7 @@ function InkLine({ text, dur }: { text: string; dur: number }) {
   const frame = useCurrentFrame();
   const wipe = interpolate(frame, [0, Math.max(6, dur * 0.35)], [0, 100], { ...clamp, easing: Easing.out(Easing.cubic) });
   const rise = interpolate(frame, [0, 6], [14, 0], clamp);
-  const long = text.length > 22 || text.includes("\n");
+  const long = text.includes("\n");
   return (
     <div
       style={{
@@ -165,9 +174,9 @@ function InkLine({ text, dur }: { text: string; dur: number }) {
         style={{
           fontFamily: T.ink,
           fontWeight: 700,
-          fontSize: text.length > 30 ? 74 : long ? 84 : 100,
+          fontSize: long ? (text.length > 26 ? 76 : 92) : 100,
           lineHeight: 1.28,
-          whiteSpace: "pre-line",
+          whiteSpace: "pre",
           color: INK,
           clipPath: `inset(-10px ${100 - wipe}% -10px 0)`,
           textShadow: "0.6px 0.6px 0 rgba(30,37,64,0.35)",
@@ -268,7 +277,7 @@ export function UsmileAd01() {
           <InkLine text={text} dur={s(b - a)} />
         </Sequence>
       ))}
-      <Sequence from={s(4.16)} durationInFrames={s(0.9)} layout="none">
+      <Sequence from={s(4.16)} durationInFrames={s(0.8)} layout="none">
         <RedScribble at={0} dur={0.6} />
       </Sequence>
       <Note at={13.16} until={15.32} text="Usmile" sub="ไหมขัดฟันพลังน้ำ" x={420} y={640} rot={-4} color={NOTE_YELLOW} />
