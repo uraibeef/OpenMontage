@@ -11,6 +11,10 @@
 import { useLayoutEffect, useRef, useState } from "react";
 import { AbsoluteFill, Audio, Easing, interpolate, OffthreadVideo, Sequence, staticFile, useCurrentFrame } from "remotion";
 import { AMBER, BLOCK, s, T, WHITE } from "./style";
+import textBoxes from "./textBoxes.json";
+
+/** OCR'd rectangles (normalized) of burned-in CJK/Hangul text + watermarks per clip; blurred, not re-encoded. */
+const BOXES = textBoxes as Record<string, number[][]>;
 
 export const USMILE_AD_03_FPS = 30;
 export const USMILE_AD_03_SECONDS = 33.6;
@@ -98,6 +102,9 @@ function Clip({ shot }: { shot: Shot }) {
     <div style={{ position: "absolute", inset: 0, overflow: "hidden" }}>
       <div style={{ position: "absolute", left: 0, top: 0, width: 1080, height: 1920, transform: `scale(${BLEED * pop * push * (shot.zoom ?? 1)})`, transformOrigin: "50% 32%" }}>
         <OffthreadVideo src={staticFile(`usmile03/${shot.clip}.mp4`)} muted startFrom={s(start)} playbackRate={rate} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+        {(BOXES[shot.clip] ?? []).map(([x0, y0, x1, y1], i) => (
+          <div key={i} style={{ position: "absolute", left: x0 * 1080, top: y0 * 1920, width: (x1 - x0) * 1080, height: (y1 - y0) * 1920, backdropFilter: "blur(26px)", background: "rgba(20,20,20,0.12)" }} />
+        ))}
       </div>
     </div>
   );
