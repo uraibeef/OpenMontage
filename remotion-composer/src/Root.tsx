@@ -92,6 +92,7 @@ import { CHAO_PHRAYA_EP02 } from "./chaophraya/ep02-river-mouth";
 import { CHAO_PHRAYA_EP03 } from "./chaophraya/ep03-gods-net";
 import { CHAO_PHRAYA_EP04 } from "./chaophraya/ep04-unchosen-invaders";
 import { TERMITE_EP01 } from "./termite/ep01-one-knock";
+import { TERMITE_EP02 } from "./termite/ep02-fast-army";
 import { USMILE_TWENTY_SECONDS } from "./ads/usmile-twenty-seconds";
 
 // ---------------------------------------------------------------------------
@@ -804,6 +805,16 @@ export const Root: React.FC = () => {
         width={ROACH_WAR_WIDTH}
         height={ROACH_WAR_HEIGHT}
         defaultProps={{ episode: CHAO_PHRAYA_EP03 }}
+      />
+
+      <Composition
+        id="TermiteEp02"
+        component={RoachWarEpisode}
+        durationInFrames={roachWarTotalFrames(TERMITE_EP02.shots)}
+        fps={ROACH_WAR_FPS}
+        width={ROACH_WAR_WIDTH}
+        height={ROACH_WAR_HEIGHT}
+        defaultProps={{ episode: TERMITE_EP02 }}
       />
 
       <Composition
