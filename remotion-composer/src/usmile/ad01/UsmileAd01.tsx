@@ -8,6 +8,7 @@
  * Footage is cropped inside the photo window (burned-in captions/watermarks stay outside
  * the window); the paper, tape, notes and ink are ours. VO only — no music, no SFX.
  */
+import { useLayoutEffect, useRef, useState } from "react";
 import { AbsoluteFill, Audio, Easing, interpolate, OffthreadVideo, Sequence, staticFile, useCurrentFrame } from "remotion";
 import { PaperGrain } from "../../fxkit";
 import { SceneBreakup, SceneEveryMeal, SceneInTheBox, SceneMatchmaker, SceneNotTheOne, ScenePokes, ScenePushDeeper, SceneWhistle } from "./Doodles";
@@ -68,7 +69,7 @@ const LINES: readonly [number, number, string][] = [
   [19.48, 21.12, "ชาร์จทีเดียว\nอยู่ได้ 3 เดือน"],
   [21.12, 22.32, "ซื่อสัตย์กว่ากูเยอะ"],
   [22.32, 24.04, "ส่วนกู\nไม่หายไปไหนหรอก"],
-  [24.04, USMILE_AD_01_SECONDS, "ยังนอนอยู่ในกล่อง\nข้างโต๊ะกินข้าวมึงนั่นแหละ"],
+  [24.04, USMILE_AD_01_SECONDS, "ยังนอนอยู่ในกล่อง\nข้างโต๊ะกินข้าว\nมึงนั่นแหละ"],
 ];
 
 /** Video kept muted, slowed if short, with a slow push, cropped to the photo window. */
@@ -150,39 +151,54 @@ function Photo() {
   );
 }
 
+/** TikTok safe area for text: keep off the right button rail (x>~900) and the caption zone (y>~1540). */
+const TEXT_SAFE_X = 72;
+const TEXT_SAFE_W = 800;
+const TEXT_TOP = 1185;
+const TEXT_H = 380;
+
 /** One inked phrase, wiped in by a pen stroke over its first ~35% of the slot. */
 function InkLine({ text, dur }: { text: string; dur: number }) {
   const frame = useCurrentFrame();
   const wipe = interpolate(frame, [0, Math.max(6, dur * 0.35)], [0, 100], { ...clamp, easing: Easing.out(Easing.cubic) });
   const rise = interpolate(frame, [0, 6], [14, 0], clamp);
-  const long = text.includes("\n");
+  const ref = useRef<HTMLDivElement>(null);
+  const [fit, setFit] = useState(1);
+  useLayoutEffect(() => {
+    if (ref.current) setFit(Math.min(1, TEXT_SAFE_W / ref.current.scrollWidth));
+  }, [text]);
+  const lines = text.split("\n").length;
+  const size = lines >= 3 ? 84 : lines === 2 ? 92 : 100;
   return (
     <div
       style={{
         position: "absolute",
-        left: 80,
-        right: 80,
-        top: 1230,
-        height: 480,
+        left: TEXT_SAFE_X,
+        top: TEXT_TOP,
+        width: TEXT_SAFE_W,
+        height: TEXT_H,
         display: "flex",
         alignItems: "center",
         justifyContent: "flex-start",
         transform: `translateY(${rise}px) rotate(-0.6deg)`,
       }}
     >
-      <div
-        style={{
-          fontFamily: T.ink,
-          fontWeight: 700,
-          fontSize: long ? (text.length > 26 ? 76 : 92) : 100,
-          lineHeight: 1.28,
-          whiteSpace: "pre",
-          color: INK,
-          clipPath: `inset(-10px ${100 - wipe}% -10px 0)`,
-          textShadow: "0.6px 0.6px 0 rgba(30,37,64,0.35)",
-        }}
-      >
-        {text}
+      <div style={{ transform: `scale(${fit})`, transformOrigin: "0 50%", clipPath: `inset(-10px ${100 - wipe}% -10px 0)` }}>
+        <div
+          ref={ref}
+          style={{
+            display: "inline-block",
+            fontFamily: T.ink,
+            fontWeight: 700,
+            fontSize: size,
+            lineHeight: 1.28,
+            whiteSpace: "pre",
+            color: INK,
+            textShadow: "0.6px 0.6px 0 rgba(30,37,64,0.35)",
+          }}
+        >
+          {text}
+        </div>
       </div>
     </div>
   );
@@ -191,7 +207,7 @@ function InkLine({ text, dur }: { text: string; dur: number }) {
 /** Small "from" header so viewers know who is writing from the first frame. */
 function FromHeader() {
   return (
-    <div style={{ position: "absolute", left: 90, top: 1150, display: "flex", alignItems: "center", gap: 18, transform: "rotate(-0.6deg)" }}>
+    <div style={{ position: "absolute", left: 90, top: 1135, display: "flex", alignItems: "center", gap: 18, transform: "rotate(-0.6deg)" }}>
       <svg width={120} height={30} viewBox="0 0 120 30">
         <path d="M6 15 L112 12" stroke="#B98B4E" strokeWidth={9} strokeLinecap="round" />
         <path d="M100 12.5 L116 12" stroke="#7A5526" strokeWidth={9} strokeLinecap="round" />
@@ -253,7 +269,7 @@ function RedScribble({ at, dur }: { at: number; dur: number }) {
   const p = interpolate(f, [0, s(dur)], [0, 1], clamp);
   return (
     <svg width={1080} height={1920} viewBox="0 0 1080 1920" style={{ position: "absolute", inset: 0 }}>
-      <path d="M90 1440 C 300 1400, 500 1480, 990 1420" stroke={PEN_RED} strokeWidth={9} fill="none" strokeLinecap="round" strokeDasharray={1000} strokeDashoffset={1000 * (1 - p)} opacity={0.9} />
+      <path d="M80 1380 C 300 1350, 500 1410, 860 1370" stroke={PEN_RED} strokeWidth={9} fill="none" strokeLinecap="round" strokeDasharray={1000} strokeDashoffset={1000 * (1 - p)} opacity={0.9} />
     </svg>
   );
 }
@@ -265,8 +281,8 @@ export function UsmileAd01() {
       {/* faint ruled lines */}
       <AbsoluteFill>
         <svg width={1080} height={1920} viewBox="0 0 1080 1920">
-          {Array.from({ length: 9 }, (_, i) => (
-            <line key={i} x1={60} x2={1020} y1={1300 + i * 70} y2={1302 + i * 70} stroke="#9AA6C4" strokeWidth={2} opacity={0.35} />
+          {Array.from({ length: 5 }, (_, i) => (
+            <line key={i} x1={60} x2={1020} y1={1290 + i * 70} y2={1292 + i * 70} stroke="#9AA6C4" strokeWidth={2} opacity={0.35} />
           ))}
         </svg>
       </AbsoluteFill>
