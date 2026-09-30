@@ -16,12 +16,14 @@ export const USMILE_AD_03_FPS = 30;
 export const USMILE_AD_03_SECONDS = 33.6;
 
 const clamp = { extrapolateLeft: "clamp", extrapolateRight: "clamp" } as const;
-const WIN_TOP = 110;
-const WIN_H = 1070;
+const WIN_TOP = 0;
+const WIN_H = 1920;
+/** Full-bleed footage is over-scaled so burned-in captions in the bottom ~22% and logos on top fall outside the frame. */
+const BLEED = 1.34;
 const CAP_X = 72;
 const CAP_W = 800;
-const CAP_TOP = 1215;
-const CAP_H = 330;
+const CAP_TOP = 1090;
+const CAP_H = 380;
 
 interface Shot {
   from: number;
@@ -90,12 +92,11 @@ function Clip({ shot }: { shot: Shot }) {
   const slot = shot.to - shot.from;
   const start = shot.start ?? 0;
   const rate = Math.min(1, Math.max(0.5, (shot.srcLen - start) / slot));
-  const ay = shot.ay ?? 0.13;
   const pop = interpolate(frame, [0, 5], [1.07, 1.0], clamp);
   const push = interpolate(frame, [0, s(slot)], [1.0, 1.05], clamp);
   return (
     <div style={{ position: "absolute", inset: 0, overflow: "hidden" }}>
-      <div style={{ position: "absolute", left: 0, top: -ay * (1920 - WIN_H), width: 1080, height: 1920, transform: `scale(${pop * push * (shot.zoom ?? 1)})`, transformOrigin: "50% 40%" }}>
+      <div style={{ position: "absolute", left: 0, top: 0, width: 1080, height: 1920, transform: `scale(${BLEED * pop * push * (shot.zoom ?? 1)})`, transformOrigin: "50% 32%" }}>
         <OffthreadVideo src={staticFile(`usmile03/${shot.clip}.mp4`)} muted startFrom={s(start)} playbackRate={rate} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
       </div>
     </div>
@@ -121,11 +122,11 @@ function Caption({ text }: { text: string }) {
   const rise = interpolate(frame, [0, 5], [16, 0], { ...clamp, easing: Easing.out(Easing.cubic) });
   const o = interpolate(frame, [0, 3], [0, 1], clamp);
   const lines = text.split("\n");
-  const size = lines.length > 1 ? 118 : 140;
+  const size = lines.length > 1 ? 112 : 136;
   return (
-    <div style={{ position: "absolute", left: CAP_X, top: CAP_TOP, width: CAP_W, height: CAP_H, display: "flex", alignItems: "center", opacity: o, transform: `translateY(${rise}px)` }}>
-      <div style={{ transform: `scale(${fit})`, transformOrigin: "0 50%" }}>
-        <div ref={ref} style={{ display: "inline-block", fontFamily: T.cap, fontWeight: 800, fontSize: size, lineHeight: 1.22, whiteSpace: "pre", textShadow: "0 3px 0 rgba(0,0,0,0.35)" }}>
+    <div style={{ position: "absolute", left: CAP_X, top: CAP_TOP, width: CAP_W, height: CAP_H, display: "flex", alignItems: "center", justifyContent: "center", opacity: o, transform: `translateY(${rise}px)` }}>
+      <div style={{ transform: `scale(${fit})`, transformOrigin: "50% 50%", textAlign: "center" }}>
+        <div ref={ref} style={{ display: "inline-block", fontFamily: T.cap, fontWeight: 800, fontSize: size, lineHeight: 1.22, whiteSpace: "pre", textShadow: "0 4px 0 rgba(0,0,0,0.55), 0 0 24px rgba(0,0,0,0.6)", WebkitTextStroke: "3px rgba(0,0,0,0.85)", paintOrder: "stroke fill" }}>
           {lines.map((l, i) => (
             <div key={i}>{renderMarked(l)}</div>
           ))}
@@ -143,7 +144,7 @@ function Chip({ at, until, text }: { at: number; until: number; text: string }) 
   const sc = interpolate(f, [0, 6], [0.85, 1], { ...clamp, easing: Easing.out(Easing.back(2)) });
   const o = interpolate(f, [0, 4], [0, 1], clamp);
   return (
-    <div style={{ position: "absolute", left: 48, top: WIN_TOP + 40, padding: "14px 28px", background: "rgba(15,18,26,0.9)", borderRadius: 14, borderLeft: `8px solid ${AMBER}`, color: WHITE, fontFamily: T.cap, fontWeight: 600, fontSize: 52, opacity: o, transform: `scale(${sc})`, transformOrigin: "0 0" }}>
+    <div style={{ position: "absolute", left: 48, top: 160, padding: "14px 28px", background: "rgba(15,18,26,0.9)", borderRadius: 14, borderLeft: `8px solid ${AMBER}`, color: WHITE, fontFamily: T.cap, fontWeight: 600, fontSize: 52, opacity: o, transform: `scale(${sc})`, transformOrigin: "0 0" }}>
       {text}
     </div>
   );
@@ -160,7 +161,7 @@ export function UsmileAd03() {
           </Sequence>
         ))}
       </div>
-      <div style={{ position: "absolute", left: 0, top: WIN_TOP + WIN_H, width: 1080, height: 8, background: AMBER }} />
+      <div style={{ position: "absolute", left: 0, top: 900, width: 1080, height: 1020, background: "linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.55) 45%, rgba(0,0,0,0.7) 100%)" }} />
       {LINES.map(([a, b, text]) => (
         <Sequence key={a} from={s(a)} durationInFrames={s(b - a)} layout="none">
           <Caption text={text} />
