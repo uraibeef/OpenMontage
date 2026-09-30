@@ -20,7 +20,7 @@ const WIN_TOP = 0;
 const WIN_H = 1920;
 /** Full-bleed footage is over-scaled so burned-in captions in the bottom ~22% and logos on top fall outside the frame. */
 const BLEED = 1.34;
-const CAP_X = 72;
+const CAP_X = 140;
 const CAP_W = 800;
 const CAP_TOP = 1090;
 const CAP_H = 380;
@@ -52,8 +52,8 @@ const SHOTS: readonly Shot[] = [
   { from: 13.72, to: 14.7, clip: "s0610", srcLen: 4.96, start: 1.0 },
   { from: 14.7, to: 15.8, clip: "s0611", srcLen: 4.96, start: 1.0 },
   { from: 15.8, to: 16.92, clip: "s0616", srcLen: 3, start: 0.6 },
-  { from: 16.92, to: 18.3, clip: "s0011", srcLen: 3, start: 0.9 },
-  { from: 18.3, to: 19.5, clip: "s0012", srcLen: 3, start: 0 },
+  { from: 16.92, to: 18.3, clip: "s0011", srcLen: 3, start: 0.9, zoom: 1.3 },
+  { from: 18.3, to: 19.5, clip: "s0012", srcLen: 3, start: 0, zoom: 1.3 },
   { from: 19.5, to: 20.76, clip: "s0612", srcLen: 4.96, start: 1.0 },
   { from: 20.76, to: 22.1, clip: "s0043", srcLen: 3, start: 1.2 },
   { from: 22.1, to: 23.52, clip: "s0044", srcLen: 3.49, start: 1.0 },
@@ -61,7 +61,7 @@ const SHOTS: readonly Shot[] = [
   { from: 24.5, to: 25.5, clip: "s0305", srcLen: 3, start: 0.5, ay: 0.4 },
   { from: 25.5, to: 26.44, clip: "s0006", srcLen: 1.59, start: 0.3 },
   { from: 26.44, to: 27.7, clip: "s0449", srcLen: 3, start: 1.0 },
-  { from: 27.7, to: 29.42, clip: "s0045", srcLen: 2.05, start: 0.1 },
+  { from: 27.7, to: 29.42, clip: "s0045", srcLen: 2.05, start: 0.1, zoom: 1.15 },
   { from: 29.42, to: 30.52, clip: "s0046", srcLen: 3, start: 1.2 },
   { from: 30.52, to: 31.6, clip: "s0600", srcLen: 3, start: 0.2 },
   { from: 31.6, to: USMILE_AD_03_SECONDS, clip: "s0048", srcLen: 2.52, start: 1.0 },
