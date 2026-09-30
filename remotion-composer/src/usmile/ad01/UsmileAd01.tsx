@@ -152,13 +152,13 @@ function Photo() {
 }
 
 /** TikTok safe area for text: keep off the right button rail (x>~900) and the caption zone (y>~1540). */
-const TEXT_SAFE_X = 72;
-const TEXT_SAFE_W = 800;
-const TEXT_TOP = 1185;
-const TEXT_H = 380;
+export const TEXT_SAFE_X = 72;
+export const TEXT_SAFE_W = 800;
+export const TEXT_TOP = 1185;
+export const TEXT_H = 380;
 
 /** One inked phrase, wiped in by a pen stroke over its first ~35% of the slot. */
-function InkLine({ text, dur }: { text: string; dur: number }) {
+export function InkLine({ text, dur, boost = 1 }: { text: string; dur: number; boost?: number }) {
   const frame = useCurrentFrame();
   const wipe = interpolate(frame, [0, Math.max(6, dur * 0.35)], [0, 100], { ...clamp, easing: Easing.out(Easing.cubic) });
   const rise = interpolate(frame, [0, 6], [14, 0], clamp);
@@ -168,7 +168,7 @@ function InkLine({ text, dur }: { text: string; dur: number }) {
     if (ref.current) setFit(Math.min(1, TEXT_SAFE_W / ref.current.scrollWidth));
   }, [text]);
   const lines = text.split("\n").length;
-  const size = lines >= 3 ? 84 : lines === 2 ? 92 : 100;
+  const size = (lines >= 3 ? 84 : lines === 2 ? 92 : 100) * boost;
   return (
     <div
       style={{
@@ -218,7 +218,7 @@ function FromHeader() {
 }
 
 /** Sticky note that slaps onto the photo at the twist. */
-function Note({ at, until, text, sub, x, y, rot, color, w = 470 }: { at: number; until: number; text: string; sub?: string; x: number; y: number; rot: number; color: string; w?: number }) {
+export function Note({ at, until, text, sub, x, y, rot, color, w = 470 }: { at: number; until: number; text: string; sub?: string; x: number; y: number; rot: number; color: string; w?: number }) {
   const frame = useCurrentFrame();
   const f = frame - s(at);
   if (f < 0 || frame >= s(until)) return null;
@@ -247,7 +247,7 @@ function Note({ at, until, text, sub, x, y, rot, color, w = 470 }: { at: number;
 }
 
 /** Four settings dots: the fourth "fills in" like a pen tick. */
-function LevelDots({ at, until }: { at: number; until: number }) {
+export function LevelDots({ at, until }: { at: number; until: number }) {
   const frame = useCurrentFrame();
   const f = frame - s(at);
   if (f < 0 || frame >= s(until)) return null;
