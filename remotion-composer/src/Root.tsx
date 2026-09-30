@@ -1,4 +1,6 @@
 import { HairAd02Retention, HAIR_AD_02R_FRAMES } from "./methaad/ad02/Retention";
+import { UsmileStory, STORY_FPS } from "./usmile/story/UsmileStory";
+import { SPECS as USMILE_SPECS } from "./usmile/story/specs";
 import { UsmileCover03 } from "./usmile/ad03/UsmileCover03";
 import { UsmileAd03, USMILE_AD_03_FPS, USMILE_AD_03_SECONDS } from "./usmile/ad03/UsmileAd03";
 import { UsmileAd02, USMILE_AD_02_FPS, USMILE_AD_02_SECONDS } from "./usmile/ad02/UsmileAd02";
@@ -680,6 +682,9 @@ export const Root: React.FC = () => {
       <Composition id="UsmileCover02" component={UsmileCover02} durationInFrames={1} fps={30} width={1080} height={1920} />
       <Composition id="UsmileAd03" component={UsmileAd03} durationInFrames={Math.round(USMILE_AD_03_SECONDS * USMILE_AD_03_FPS)} fps={USMILE_AD_03_FPS} width={1080} height={1920} />
       <Composition id="UsmileCover03" component={UsmileCover03} durationInFrames={1} fps={30} width={1080} height={1920} />
+      {USMILE_SPECS.map((sp) => (
+        <Composition key={sp.id} id={sp.id} component={UsmileStory} defaultProps={{ spec: sp }} durationInFrames={Math.round(sp.seconds * STORY_FPS)} fps={STORY_FPS} width={1080} height={1920} />
+      ))}
       <Composition
         id="UsmileAd01"
         component={UsmileAd01}
